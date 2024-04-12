@@ -17,6 +17,7 @@ app.use(cors({
 }))
 app.use(cookieParser())
 app.use("/images", cors(), express.static(path.join(__dirname, "uploads/")));
+console.log(__dirname)
 app.use(express.static(path.join(__dirname, '../client/build')));
 
 app.get('/*', function (req, res) {
