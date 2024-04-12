@@ -17,7 +17,11 @@ app.use(cors({
 }))
 app.use(cookieParser())
 app.use("/images", cors(), express.static(path.join(__dirname, "uploads/")));
+app.use(express.static(path.join(__dirname, "../client/build")))
 
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../client/build"))
+})
 const authRouter = require("./routes/Auth")
 app.use("/auth", authRouter)
 
