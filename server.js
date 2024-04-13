@@ -9,19 +9,10 @@ const path = require("path")
 const port = process.env.PORT || 3001
 
 app.use(express.json())
-app.use(cors({
-    origin: process.env.ORIGIN,
-    methods: ["GET", "POST", "PATCH"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true
-}))
+app.use(cors())
 app.use(cookieParser())
 app.use("/images", cors(), express.static(path.join(__dirname, "uploads/")));
-app.use(express.static(path.join(__dirname, "../client/build")))
 
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../client/build"))
-})
 const authRouter = require("./routes/Auth")
 app.use("/auth", authRouter)
 
@@ -42,7 +33,6 @@ app.use("/reviews", reviewsRouter)
 
 const carsRouter = require("./routes/Cars")
 app.use("/cars", carsRouter)
-
 
 app.listen(port, () => {
     console.log("Server running on port : " + port)
