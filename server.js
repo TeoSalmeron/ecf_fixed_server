@@ -7,11 +7,17 @@ const cors = require("cors")
 const cookieParser = require("cookie-parser")
 const path = require("path")
 const port = process.env.PORT || 3001
-
+const db = require("./config/db")
 app.use(express.json())
 app.use(cors())
 app.use(cookieParser())
-app.use("/images", cors(), express.static(path.join(__dirname, "uploads/")));
+app.use("/images", cors(), express.static(path.join(__dirname, "uploads/")))
+
+const getUsers = async () => {
+    const [users] = await db.query("SELECT * FROM users")
+    console.log(users)
+}
+
 
 const authRouter = require("./routes/Auth")
 app.use("/auth", authRouter)
@@ -36,4 +42,5 @@ app.use("/cars", carsRouter)
 
 app.listen(port, () => {
     console.log("Server running on port : " + port)
+    getUsers()
 })
